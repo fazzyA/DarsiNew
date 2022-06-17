@@ -19,7 +19,8 @@ export const login = async (dispatch, user) => {
   dispatch(loginStart());
   try {
     const res = await publicRequest.post("/auth/login", user);
-    dispatch(loginSuccess(res.data));
+    localStorage.setItem("user", JSON.stringify(res.data._doc));
+    dispatch(loginSuccess(res.data._doc));
   } catch (err) {
     dispatch(loginFailure());
   }

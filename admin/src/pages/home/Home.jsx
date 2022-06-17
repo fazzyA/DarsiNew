@@ -8,6 +8,10 @@ import { useEffect, useMemo, useState } from "react";
 import { userRequest } from "../../requestMethods";
 
 export default function Home() {
+  // useEffect(() => {
+  //   const admin = JSON.parse(localStorage.getItem("user")).currentUser?.isAdmin;
+  //   window.location ="login"
+  // }, [])
   const [userStats, setUserStats] = useState([]);
 
   const MONTHS = useMemo(
