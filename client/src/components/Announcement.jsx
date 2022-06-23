@@ -1,18 +1,31 @@
-import styled from "styled-components";
+import React from 'react'
+import { AppBar, styled, Toolbar, Box, Typography, InputBase } from '@material-ui/core'
+import { Link } from 'react-router-dom';
 
-const Container = styled.div`
-  height: 30px;
-  background-color: teal;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 500;
-`;
+
+const StyledToolbar = styled(Toolbar)({
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: '#9e9e9e',
+    
+});
 
 const Announcement = () => {
-  return <Container>Super Deal! Free Shipping on Orders Over $50</Container>;
-};
+    return (
+        <AppBar position='sticky'>
+            <StyledToolbar>
+                <Link>
+                    <Typography>Login</Typography>
+                </Link>
+                <Link>
+                    <Typography>Signup</Typography>
+                </Link>
+                <Link>
+                    <Typography>Packeges</Typography>
+                </Link>
+            </StyledToolbar>
+        </AppBar>
+    )
+}
 
-export default Announcement;
+export default Announcement

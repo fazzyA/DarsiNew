@@ -11,7 +11,7 @@ const Container = styled.div`
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
     ),
-    url("https://images.pexels.com/photos/6984650/pexels-photo-6984650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    url("https://images.unsplash.com/photo-1516053256215-94022213b13c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHNjaG9vbCUyMHN1cHBsaWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60")
       center;
   background-size: cover;
   display: flex;
@@ -84,7 +84,7 @@ const Login = () => {
         <Title>SIGN IN</Title>
         <Form>
           <Input
-            placeholder="username"
+            placeholder="email"
             onChange={(e) => setUsername(e.target.value)}
           />
           <Input
@@ -97,7 +97,7 @@ const Login = () => {
           </Button>
           {error && <Error>Something went wrong...</Error>}
           <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Link to={`register`}>CREATE A NEW ACCOUNT</Link>
         </Form>
       </Wrapper>
     </Container>
