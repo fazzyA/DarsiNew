@@ -20,15 +20,15 @@ const useStyles = makeStyles({
     margin: 10,
   }
 });
-const Categories = () => {
+const FeaturedProducts = () => {
   const classes = useStyles();
   return (
-    <Container maxWidth="md">
-      <Typography className={classes.heading}>Categories</Typography>
+    <Container maxWidth="lg">
+      <Typography className={classes.heading}>Featured Products</Typography>
       <hr style={{ marginBottom: 15 }} />
       <Grid container>
         {categories.map((item) => (
-          <Grid item xs={6} md={4} key={item.id}>
+          <Grid item xs={6} md={3} key={item.id}>
             <Card className={classes.root} variant="outlined">
               <CardMedia
                 className={classes.media}
@@ -47,4 +47,4 @@ const Categories = () => {
   )
 }
 
-export default Categories
+export default FeaturedProducts
