@@ -4,6 +4,7 @@ import { Box, Grid, Container, Card, CardMedia, Typography, CardContent, CardAct
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -27,6 +28,9 @@ const useStyles = makeStyles({
   content: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  link: {
+    textDecoration: 'none'
   }
 });
 const Products = () => {
@@ -52,7 +56,9 @@ const Products = () => {
                 </Typography>
               </CardContent>
             <CardContent className={classes.cardBtn}>
+              <Link className={classes.link}>
               <Button variant="outlined">Add To Cart</Button>
+              </Link>
             </CardContent>
             </Card>
           </Grid>

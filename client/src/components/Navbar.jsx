@@ -3,6 +3,8 @@ import { ShoppingCart } from '@material-ui/icons';
 import React from 'react'
 import { Link } from 'react-router-dom';
 import logo from "../images/darsi-logo.png";
+import { makeStyles } from '@material-ui/core/styles';
+
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
@@ -27,25 +29,34 @@ const Icons = styled(Box)(({ theme }) => ({
     display: "flex",
   },
 }));
-const linksTypography = styled(Typography)({
-  color: 'red'
+const useStyles = makeStyles({
+  link : {
+    textDecoration:'none',
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 500,
+  }
 })
 const Navbar = () => {
+  const classes = useStyles();
+
   return (
     <AppBar position='sticky'>
       <StyledToolbar>
+        <Link to="/">
         <Logo src={logo}></Logo>
+        </Link>
         <Search>
           <InputBase placeholder='search.....' />
         </Search>
         <Icons>
-          <Link to={`login`}>
+          <Link className={classes.link} to={`login`}>
             <linksTypography variant='button'>Login</linksTypography>
           </Link>
-          <Link to={`register`}>
+          <Link className={classes.link} to={`register`}>
             <linksTypography variant='button'>Signup</linksTypography>
           </Link>
-          <Link>
+          <Link className={classes.link}>
             <linksTypography variant='button'>Packeges</linksTypography>
           </Link>
           <Badge badgeContent={4} color="secondary">

@@ -1,60 +1,66 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { mobile } from "../responsive";
+import { popularProducts } from "../data";
 
-const Container = styled.div`
-  flex: 1;
-  margin: 3px;
-  height: 70vh;
-  position: relative;
-`;
+import { Box, Grid, Container, Card, CardMedia, Typography, CardContent, Button } from '@material-ui/core'
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+    marginBottom: 15,
+    margin: 10
+  },
+  media: {
+    height: 180,
+  },
+  heading: {
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  ${mobile({ height: "20vh" })}
+    fontSize: 50,
+    textAlign: 'center',
+    margin: 10,
+  },
+  cardBtn: {
+    marginTop: -10,
+    textAlign: 'center',
+  },
+  content: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  }
+});
 
-`;
+const CategoryItem = () => {
+  const classes = useStyles();
 
-const Info = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Title = styled.h1`
-    color:white;
-    margin-bottom: 20px;
-`;
-
-const Button = styled.button`
-    border:none;
-    padding: 10px;
-    background-color: white;
-    color:gray;
-    cursor: pointer;
-    font-weight: 600;
-`;
-
-const CategoryItem = ({ item }) => {
   return (
-    <Container>
-      <Link to={`/products/${item.cat}`}>
-      <Image src={item.img} />
-      <Info>
-        <Title>{item.title}</Title>
-        <Button>SHOP NOW</Button>
-      </Info>
-      </Link>
+    <Container maxWidth="lg">
+      <Typography className={classes.heading}>Category Type
+      </Typography>
+      <hr style={{ marginBottom: 15 }} />
+      <Grid container>
+        {popularProducts.map((item) => (
+          <Grid item xs={6} md={3} key={item.id}>
+            <Card className={classes.root} variant="outlined">
+              <CardMedia
+                className={classes.media}
+                image={item.img}
+              />
+              <CardContent className={classes.content}>
+                <Typography color="textSecondary" component="h3">
+                  {item.title}
+                </Typography>
+                <Typography color="secondary" component="h5">
+                  RS. 500
+                </Typography>
+              </CardContent>
+            <CardContent className={classes.cardBtn}>
+              <Button variant="outlined">Add To Cart</Button>
+            </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Container>
-  );
-};
+  )
+}
 
-export default CategoryItem;
+export default CategoryItem
