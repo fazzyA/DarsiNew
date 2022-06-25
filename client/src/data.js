@@ -27,35 +27,35 @@ export const sliderItems = [
       id: 1,
       img: "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
       title: "UNIFORMS!",
-      cat:"women"
+      cat:"uniforms"
     },
     {
       id: 2,
       img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
       title: "BOOKS",
-      cat:"coat"
+      cat:"books"
     },
     {
       id: 3,
       img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
       title: "SCHOOL BAGS",
-      cat:"jeans"
+      cat:"school-bags"
     },
     {
       id: 4,
       img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
       title: "STATIONARY",
-      cat:"jeans"
+      cat:"stationary"
     }, {
       id: 5,
       img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
       title: "WATER BOTTELS",
-      cat:"jeans"
+      cat:"water-bottels"
     }, {
       id: 6,
       img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
       title: "SHOES",
-      cat:"jeans"
+      cat:"shoes"
     },
   ];
 
