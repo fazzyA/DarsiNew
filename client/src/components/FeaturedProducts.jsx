@@ -1,4 +1,4 @@
-import { categories } from "../data";
+import { popularProducts } from "../data";
 
 import { Box, Grid, Container, Card, CardMedia, Typography, CardContent } from '@material-ui/core'
 import React from 'react';
@@ -27,7 +27,7 @@ const FeaturedProducts = () => {
       <Typography className={classes.heading}>Featured Products</Typography>
       <hr style={{ marginBottom: 15 }} />
       <Grid container>
-        {categories.map((item) => (
+        {popularProducts.map((item) => (
           <Grid item xs={6} md={3} key={item.id}>
             <Card className={classes.root} variant="outlined">
               <CardMedia
@@ -36,7 +36,7 @@ const FeaturedProducts = () => {
               />
               <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  {item.title}
+                  {/* {item.title} */}
                 </Typography>
               </CardContent>
             </Card>
