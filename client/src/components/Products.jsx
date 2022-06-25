@@ -56,7 +56,7 @@ const Products = () => {
                 </Typography>
               </CardContent>
             <CardContent className={classes.cardBtn}>
-              <Link className={classes.link}>
+              <Link to={`/product/${item.id}`} className={classes.link}>
               <Button variant="outlined">Add To Cart</Button>
               </Link>
             </CardContent>

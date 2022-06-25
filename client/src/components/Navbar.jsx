@@ -50,10 +50,10 @@ const Navbar = () => {
           <InputBase placeholder='search.....' />
         </Search>
         <Icons>
-          <Link className={classes.link} to={`login`}>
+          <Link className={classes.link} to={`/login`}>
             <linksTypography variant='button'>Login</linksTypography>
           </Link>
-          <Link className={classes.link} to={`register`}>
+          <Link className={classes.link} to={`/register`}>
             <linksTypography variant='button'>Signup</linksTypography>
           </Link>
           <Link className={classes.link}>
