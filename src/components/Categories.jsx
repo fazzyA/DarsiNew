@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 const Categories = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.category);
+  const { categories, isFetching } = useSelector((state) => state.category);
   useEffect(() => {
     get_categories(dispatch);
   }, []);
@@ -43,30 +43,31 @@ const Categories = () => {
       <Typography className={classes.heading}>Categories</Typography>
       <hr style={{ marginBottom: 15 }} />
       <Grid container>
-        {categories &&
-          categories.map((item) => (
-            <Grid item xs={6} md={4} key={item.id}>
-              <Link className={classes.link} to={`categ_item/${item.id}`}>
-                <Card className={classes.root} variant="outlined">
-                  <CardMedia
-                    className={classes.media}
-                    image={
-                      "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    }
-                  />
-                  <CardContent>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      {item.title}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
-          ))}
+        {!isFetching
+          ? categories?.map((item) => (
+              <Grid item xs={6} md={4} key={item._id}>
+                <Link className={classes.link} to={`categ_item/${item._id}`}>
+                  <Card className={classes.root} variant="outlined">
+                    <CardMedia
+                      className={classes.media}
+                      image={
+                        "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      }
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        {item.title}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </Grid>
+            ))
+          : null}
       </Grid>
     </Container>
   );
