@@ -30,11 +30,13 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 const Icons = styled(Box)(({ theme }) => ({
-  display: "none",
+  // display: "none",
   alignItems: "center",
   gap: "20px",
-  [theme.breakpoints.up("sm")]: {
+  // padding: 10,
+  [theme.breakpoints.down("sm")]: {
     display: "flex",
+    flexDirection: "column"
   },
 }));
 const useStyles = makeStyles({
@@ -43,6 +45,7 @@ const useStyles = makeStyles({
     color: "black",
     fontSize: 16,
     fontWeight: 500,
+    padding: 10
   },
 });
 const Navbar = () => {

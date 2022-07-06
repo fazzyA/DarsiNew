@@ -1,30 +1,47 @@
 import { Box, Typography, Grid, Paper, Button } from '@material-ui/core'
 import React from 'react'
-import heroImg from "../images/hero-removebg.png";
+import heroImg from "../images/hero_img.webp";
 import styled from "styled-components";
+import { makeStyles } from "@material-ui/core/styles";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-const ImgContainer = styled.div`
-  height: 100%;
-  flex: 1;
-  margin-top : 20px;
-`;
 
-const Image = styled.img`
-  height: 80%;
+const useStyles = makeStyles(theme =>{
+    return {
+    banner_box : {
+        display : "flex" ,
+        justifyContent: "space-between",
+        // backgroundColor:'pink'
+    },
+    img_div : {
+        justifyContent : 'flex-end',
+        // width : "500px",
+        
+    },
+    image : {
+        [theme.breakpoints.down('sm')] : {
+            width: '300px',
+            
+        },
+        [theme.breakpoints.up('sm')] : {
+            width: '500px'
+        },
+        // marginLeft : "100px"
+        
+    }
+   
+}
+})
 
-`;
 const Banner = () => {
-    return (
-        <Box sx={{ bgcolor: '#f5fafd' }}>
-            <Grid container >
-                <Grid item xs={12} md={7}>
-                    <ImgContainer>
-                        <Image src={heroImg} />
-                    </ImgContainer>
-                    {/* <img src={heroImg} width={500} height={500} /> */}
+  const classes = useStyles();
+  
 
-                </Grid>
-                <Grid item xs={12} md={5}>
+    return (
+        <Box className={classes.banner_box}>
+            <Grid container >
+               
+                <Grid item xs={12} md={5} >
                     <Box
                         fontSize={20}
                         fontWeight="fontWeightBold"
@@ -43,7 +60,12 @@ const Banner = () => {
                         <Button variant="outlined" color="primary">Shop Now</Button>
                     </Box>
                 </Grid>
+                <Grid item md={2}></Grid>
+                <Grid className={classes.img_div} item xs={10} md={5}>
+                    
+                    <img src={heroImg}  height={500} width={600} className={classes.image}/>
 
+                </Grid>
             </Grid>
         </Box>
     )
