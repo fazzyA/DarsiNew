@@ -120,7 +120,7 @@ const Register = () => {
           >
             <option value="Customer">Customer</option>
             <option value="Vendor">Vendor</option>
-            <option value="Referral">Referral</option>
+            <option value="Referrer">Referrer</option>
           </Select>
           <Agreement>
             By creating an account, I consent to the processing of my personal

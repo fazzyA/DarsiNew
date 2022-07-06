@@ -8,7 +8,8 @@ import { publicRequest } from "../../requestMethods";
 export const get_categories = async (dispatch) => {
   dispatch(categoryStart());
   try {
-    const res = await publicRequest.get("/categories");
+    debugger;
+    const res = await publicRequest.get("/categories/without_filter");
     dispatch(categorySuccess(res.data));
   } catch (err) {
     dispatch(categoryFailure());
