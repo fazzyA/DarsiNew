@@ -88,11 +88,11 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>LAMA.</Logo>
+        <Logo>DARSI.</Logo>
         <Desc>
-          There are many variations of passages of Lorem Ipsum available, but
+          {/* There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form, by injected
-          humour, or randomised words which don’t look even slightly believable.
+          humour, or randomised words which don’t look even slightly believable. */}
         </Desc>
         <SocialContainer>
           <SocialIcon color="3B5999">
