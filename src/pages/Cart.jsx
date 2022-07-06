@@ -9,9 +9,15 @@ import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useHistory } from "react-router-dom";
-import { addProduct, removeProduct } from "../redux/reducers/cartRedux";
+import {
+  addProduct,
+  clear_cart,
+  removeProduct,
+} from "../redux/reducers/cartRedux";
+import { apply_discount_code } from "../redux/action/discount_code";
+import { createOrder } from "../redux/action/create_order";
 
-const KEY = process.env.REACT_APP_STRIPE;
+// const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
 
@@ -160,97 +166,169 @@ const Button = styled.button`
   font-weight: 600;
 `;
 
+const Input = styled.input`
+  flex: 1;
+  min-width: 40%;
+  margin: 10px 0;
+  padding: 10px;
+`;
 const Cart = () => {
+  const user = useSelector((state) => state.user.currentUser);
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
+  const [code, setCode] = useState(null);
+  const [_package, setPackage] = useState({});
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const onToken = (token) => {
-    setStripeToken(token);
-  };
+  // const onToken = (token) => {
+  //   setStripeToken(token);
+  // };
 
-  useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        const res = await userRequest.post("/checkout/payment", {
-          tokenId: stripeToken.id,
-          amount: 500,
-        });
-        history.push("/success", {
-          stripeData: res.data,
-          products: cart,
-        });
-      } catch {}
-    };
-    stripeToken && makeRequest();
-  }, [stripeToken, cart.total, history]);
+  // useEffect(() => {
+  //   const makeRequest = async () => {
+  //     try {
+  //       const res = await userRequest.post("/checkout/payment", {
+  //         tokenId: stripeToken.id,
+  //         amount: 500,
+  //       });
+  //       history.push("/success", {
+  //         stripeData: res.data,
+  //         products: cart,
+  //       });
+  //     } catch {}
+  //   };
+  //   stripeToken && makeRequest();
+  // }, [stripeToken, cart.total, history]);
+  const handleCreateOrder = () => {
+    let cartData = {};
+    cartData.products = cart.products.map((x) => ({
+      productId: x._id,
+      title: x.title,
+      profitMargin: x.profitMargin,
+      productCode: x.productCode,
+      price: x.price,
+      qty: x.quantity,
+      stockCountPending: x.stockCountPending,
+      stockCountConsumed: x.stockCountConsumed,
+      totalSale: x.totalSale,
+    }));
+    if (code) {
+      cartData.applied_Referral_Code = code;
+    }
+    if (user) {
+      cartData.user = user._id;
+      cartData.name = user.firstname + " " + user.lastname;
+      cartData.email = user.email;
+    } else {
+      cartData.name = "Hassan Mujtaba";
+      cartData.email = "hassan@gmail.com";
+    }
+    cartData.address = "ABC";
+    createOrder(cartData)
+      .then((res) => {
+        if (res.status === 200) {
+          alert(res.data.message);
+          dispatch(clear_cart());
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch((error) => alert(error));
+  };
+  console.log(cart);
   return (
     <Container>
-      {/* <Announcement /> */}
-      <Wrapper>
-        <Title>YOUR BAG</Title>
-        <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
-          </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
-        </Top>
-        <Bottom>
-          <Info>
-            {cart.products.map((product) => (
-              <Product>
-                <ProductDetail>
-                  <Image src={product.imageURL} />
-                  <Details>
-                    <ProductName>
-                      <b>Product:</b> {product.title}
-                    </ProductName>
-                    <ProductId>
-                      <b>ID:</b> {product._id}
-                    </ProductId>
-                    <ProductColor color={product.color} />
-                    <ProductSize>
-                      <b>Price:</b> {product.price}
-                    </ProductSize>
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <ProductAmountContainer>
-                    <Add
-                      onClick={() =>
-                        dispatch(addProduct({ ...product, quantity: 1 }))
-                      }
-                    />
-                    <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove
-                      onClick={() =>
-                        dispatch(removeProduct({ ...product, quantity: 1 }))
-                      }
-                    />
-                  </ProductAmountContainer>
-                  <ProductPrice>
-                    $ {product.price * product.quantity}
-                  </ProductPrice>
-                </PriceDetail>
-              </Product>
-            ))}
-            <Hr />
-          </Info>
-          <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-            </SummaryItem>
+      {cart.products.length > 0 ? (
+        <Wrapper>
+          <Title>YOUR BAG</Title>
+          <Top>
+            <TopButton>CONTINUE SHOPPING</TopButton>
+            <TopTexts>
+              <TopText>Shopping Bag(2)</TopText>
+              <TopText>Your Wishlist (0)</TopText>
+            </TopTexts>
+            <TopButton type="filled" onClick={() => dispatch(clear_cart())}>
+              Clear Cart
+            </TopButton>
+          </Top>
+          <Bottom>
+            <Info>
+              {cart.products.map((product) => (
+                <Product>
+                  <ProductDetail>
+                    <Image src={product.imageURL} />
+                    <Details>
+                      <ProductName>
+                        <b>Product:</b> {product.title}
+                      </ProductName>
+                      <ProductId>
+                        <b>ID:</b> {product._id}
+                      </ProductId>
+                      <ProductColor color={product.color} />
+                      <ProductSize>
+                        <b>Price:</b> {product.price}
+                      </ProductSize>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <Add
+                        onClick={() =>
+                          dispatch(addProduct({ ...product, quantity: 1 }))
+                        }
+                      />
+                      <ProductAmount>{product.quantity}</ProductAmount>
+                      <Remove
+                        onClick={() => dispatch(removeProduct(product))}
+                      />
+                    </ProductAmountContainer>
+                    <ProductPrice>
+                      $ {product.price * product.quantity}
+                    </ProductPrice>
+                  </PriceDetail>
+                </Product>
+              ))}
+              <Input
+                placeholder="Enter Referrer code"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+              <Button
+                onClick={() =>
+                  apply_discount_code(code).then((res) => setPackage(res))
+                }
+                disabled={!code}
+              >
+                Apply
+              </Button>
+              <Hr />
+            </Info>
 
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-            </SummaryItem>
-            <StripeCheckout
+            <Summary>
+              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+              <SummaryItem>
+                <SummaryItemText>Subtotal</SummaryItemText>
+                <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem>
+                <SummaryItemText>Discount</SummaryItemText>
+                <SummaryItemPrice>
+                  - ${" "}
+                  {(cart.total * Number(_package.discount_percentage) || 0) /
+                    100}
+                </SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem type="total">
+                <SummaryItemText>Total</SummaryItemText>
+                <SummaryItemPrice>
+                  ${" "}
+                  {cart.total -
+                    (cart.total * Number(_package.discount_percentage) || 0) /
+                      100}
+                </SummaryItemPrice>
+              </SummaryItem>
+              {/* <StripeCheckout
               name="Lama Shop"
               image="https://avatars.githubusercontent.com/u/1486366?v=4"
               billingAddress
@@ -260,11 +338,16 @@ const Cart = () => {
               token={onToken}
               stripeKey={KEY}
             >
-              <Button>CHECKOUT NOW</Button>
-            </StripeCheckout>
-          </Summary>
-        </Bottom>
-      </Wrapper>
+            </StripeCheckout> */}
+              <Button onClick={handleCreateOrder}>CHECKOUT NOW</Button>
+            </Summary>
+          </Bottom>
+        </Wrapper>
+      ) : (
+        <Wrapper>
+          <Title>Your cart is empty!</Title>
+        </Wrapper>
+      )}
       <Footer />
     </Container>
   );

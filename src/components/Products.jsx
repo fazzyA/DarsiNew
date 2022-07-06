@@ -71,11 +71,15 @@ const Products = () => {
                 <CardContent className={classes.cardBtn}>
                   <Button
                     variant="outlined"
-                    onClick={() =>
-                      dispatch(addProduct({ ...item, quantity: 1 }))
-                    }
+                    onClick={() => {
+                      if (item.stockCountPending > 0) {
+                        dispatch(addProduct({ ...item, quantity: 1 }));
+                      }
+                    }}
                   >
-                    Add To Cart
+                    {item.stockCountPending > 0
+                      ? "Add To Cart"
+                      : "Out of Stock"}
                   </Button>
                 </CardContent>
               </Card>

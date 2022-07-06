@@ -48,9 +48,8 @@ const useStyles = makeStyles({
 });
 const Navbar = () => {
   const classes = useStyles();
-  const user = JSON.parse(
-    JSON.parse(localStorage.getItem("persist:root")).user
-  ).currentUser;
+  const user = useSelector((state) => state.user.currentUser);
+
   const cart = useSelector((state) => state.cart);
 
   return (

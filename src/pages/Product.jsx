@@ -32,6 +32,8 @@ const useStyles = makeStyles({
   image: {
     marginTop: "20px",
     borderRadius: "10px",
+    width: "100%",
+    objectFit: "contain",
   },
   title: {
     fontSize: "32px",
