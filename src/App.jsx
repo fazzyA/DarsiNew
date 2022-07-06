@@ -40,7 +40,7 @@ const App = () => {
         <Route path="/register">
           {user ? <Redirect to="/" /> : <Register />}
         </Route>
-        <Route  path="/categ_item/:category">
+        <Route path="/categ_item/:category">
           <CategoryItem />
         </Route>
       </Switch>

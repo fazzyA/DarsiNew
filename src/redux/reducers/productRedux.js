@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "product",
   initialState: {
-    products: null,
+    products: [],
     isFetching: false,
     error: false,
   },

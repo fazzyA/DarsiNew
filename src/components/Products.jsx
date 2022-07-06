@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_products } from "../redux/action/product";
+import { addProduct } from "../redux/reducers/cartRedux";
 
 const useStyles = makeStyles({
   root: {
@@ -42,10 +43,10 @@ const useStyles = makeStyles({
 const Products = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { products, isFetching } = useSelector((state) => state.product);
   useEffect(() => {
     get_products(dispatch);
   }, []);
+  const { products, isFetching } = useSelector((state) => state.product);
   return (
     <Container maxWidth="lg">
       <Typography className={classes.heading}>All Products</Typography>
@@ -55,19 +56,27 @@ const Products = () => {
           products?.map((item) => (
             <Grid item xs={6} md={2} key={item._id}>
               <Card className={classes.root} variant="outlined">
-                <CardMedia className={classes.media} image={item.imageURL} />
-                <CardContent className={classes.content}>
-                  <Typography color="textSecondary" component="h3">
-                    {item.title}
-                  </Typography>
-                  <Typography color="secondary" component="h5">
-                    {item.price}
-                  </Typography>
-                </CardContent>
+                <Link to={`/product/${item._id}`} className={classes.link}>
+                  <CardMedia className={classes.media} image={item.imageURL} />
+                  <CardContent className={classes.content}>
+                    <Typography color="textSecondary" component="h3">
+                      {item.title}
+                    </Typography>
+                    <Typography color="secondary" component="h5">
+                      {item.price}
+                    </Typography>
+                  </CardContent>
+                </Link>
+
                 <CardContent className={classes.cardBtn}>
-                  <Link to={`/product/${item._id}`} className={classes.link}>
-                    <Button variant="outlined">Add To Cart</Button>
-                  </Link>
+                  <Button
+                    variant="outlined"
+                    onClick={() =>
+                      dispatch(addProduct({ ...item, quantity: 1 }))
+                    }
+                  >
+                    Add To Cart
+                  </Button>
                 </CardContent>
               </Card>
             </Grid>

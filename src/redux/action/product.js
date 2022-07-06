@@ -9,9 +9,16 @@ export const get_products = async (dispatch) => {
   dispatch(productStart());
   try {
     const res = await publicRequest.get("/products/without_filter");
-    console.log(res);
     dispatch(productSuccess(res.data));
   } catch (err) {
     dispatch(productFailure());
   }
+};
+export const get_product = (id) => {
+  return new Promise((resolve, reject) => {
+    publicRequest
+      .get(`/products/${id}`)
+      .then((data) => resolve(data))
+      .catch((err) => reject(err));
+  });
 };

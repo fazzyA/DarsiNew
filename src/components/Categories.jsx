@@ -34,10 +34,10 @@ const useStyles = makeStyles({
 const Categories = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { categories, isFetching } = useSelector((state) => state.category);
   useEffect(() => {
     get_categories(dispatch);
   }, []);
+  const { categories, isFetching } = useSelector((state) => state.category);
   return (
     <Container maxWidth="md">
       <Typography className={classes.heading}>Categories</Typography>

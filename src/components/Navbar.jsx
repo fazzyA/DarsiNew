@@ -12,6 +12,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../images/darsi-logo.png";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -50,6 +51,8 @@ const Navbar = () => {
   const user = JSON.parse(
     JSON.parse(localStorage.getItem("persist:root")).user
   ).currentUser;
+  const cart = useSelector((state) => state.cart);
+
   return (
     <AppBar position="sticky">
       <StyledToolbar>
@@ -79,9 +82,11 @@ const Navbar = () => {
           <Link className={classes.link}>
             <linksTypography variant="button">Packeges</linksTypography>
           </Link>
-          <Badge badgeContent={4} color="secondary">
-            <ShoppingCart color="action" />
-          </Badge>
+          <Link className={classes.link} to="/cart">
+            <Badge badgeContent={cart.quantity} color="secondary">
+              <ShoppingCart color="action" />
+            </Badge>
+          </Link>
         </Icons>
       </StyledToolbar>
     </AppBar>

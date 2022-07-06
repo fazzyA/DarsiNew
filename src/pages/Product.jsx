@@ -5,13 +5,12 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
 import { addProduct } from "../redux/reducers/cartRedux";
 import { useDispatch } from "react-redux";
 
-import React from "react";
 import {
   Box,
   Button,
@@ -23,6 +22,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { get_product } from "../redux/action/product";
 
 const useStyles = makeStyles({
   container: {
@@ -61,44 +61,71 @@ const useStyles = makeStyles({
 });
 const Product = () => {
   const classes = useStyles();
+  const [product, setProduct] = useState(null);
+  const [qty, setQty] = useState(0);
+  let { id } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    get_product(id).then(({ data }) => {
+      setProduct(data);
+    });
+  }, []);
 
   return (
     <Container className={classes.container} maxWidth="md">
       <Box>
-        <Grid container>
-          <Grid item xs={12} md={6}>
-            <img
-              src="https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              height="520px"
-              alt="product_img"
-              className={classes.image}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography className={classes.title}>product 1</Typography>
-            <Typography className={classes.desc}>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Veritatis amet soluta omnis a sapiente{" "}
-            </Typography>
-            <Box>
-              <IconButton className={classes.icon}>
-                <Add />
-              </IconButton>
-              <TextField
-                className={classes.quautity_box}
-                id="outlined-basic"
-                label="2"
-                variant="outlined"
+        {product && (
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <img
+                src={product.imageURL}
+                height="520px"
+                alt="product_img"
+                className={classes.image}
               />
-              <IconButton className={classes.icon}>
-                <Remove />
-              </IconButton>
-            </Box>
-            <Button className={classes.cartBtn} variant="outlined">
-              Add To Cart
-            </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography className={classes.title}>{product.title}</Typography>
+              <Typography
+                className={classes.desc}
+                dangerouslySetInnerHTML={{
+                  __html: product.description,
+                }}
+              ></Typography>
+              <Box>
+                <IconButton
+                  className={classes.icon}
+                  onClick={(e) => setQty((prev) => (prev = prev + 1))}
+                >
+                  <Add />
+                </IconButton>
+                <TextField
+                  className={classes.quautity_box}
+                  id="outlined-basic"
+                  value={qty}
+                  onChange={(e) => setQty(e.target.value)}
+                  variant="outlined"
+                />
+                <IconButton
+                  className={classes.icon}
+                  onClick={(e) => setQty((prev) => (prev = prev - 1))}
+                >
+                  <Remove />
+                </IconButton>
+              </Box>
+              <Button
+                className={classes.cartBtn}
+                variant="outlined"
+                onClick={() =>
+                  dispatch(addProduct({ ...product, quantity: qty }))
+                }
+              >
+                Add To Cart
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </Box>
     </Container>
   );
