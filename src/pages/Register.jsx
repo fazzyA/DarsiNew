@@ -122,6 +122,12 @@ const Register = () => {
             <option value="Vendor">Vendor</option>
             <option value="Referral">Referral</option>
           </Select>
+          <Input
+            placeholder="Add Referral Code"
+            onChange={(e) =>
+              setUser((prev) => ({ ...prev, referral_code: e.target.value }))
+            }
+          />
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
